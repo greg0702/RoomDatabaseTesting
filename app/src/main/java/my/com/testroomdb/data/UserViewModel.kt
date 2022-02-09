@@ -24,4 +24,6 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) { repository.addUser(user) }
     }
 
+    fun readAllData(): LiveData<List<User>>{ return readAllData }
+
 }
