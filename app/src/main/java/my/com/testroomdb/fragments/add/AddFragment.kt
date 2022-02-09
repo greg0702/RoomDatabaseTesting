@@ -1,8 +1,6 @@
 package my.com.testroomdb.fragments.add
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import my.com.testroomdb.R
-import my.com.testroomdb.data.User
-import my.com.testroomdb.data.UserViewModel
+import my.com.testroomdb.model.User
+import my.com.testroomdb.viewmodel.UserViewModel
 import my.com.testroomdb.databinding.FragmentAddBinding
 
 class AddFragment : Fragment() {

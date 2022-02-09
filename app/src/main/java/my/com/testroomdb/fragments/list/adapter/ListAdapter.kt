@@ -4,9 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import my.com.testroomdb.R
-import my.com.testroomdb.data.User
+import my.com.testroomdb.fragments.list.ListFragmentDirections
+import my.com.testroomdb.model.User
 
 class ListAdapter: RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
@@ -14,6 +16,7 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
+        val root = view
         val txtId: TextView = view.findViewById(R.id.txtId)
         val txtFirstName: TextView = view.findViewById(R.id.txtFirstName)
         val txtLastName: TextView = view.findViewById(R.id.txtLastName)
@@ -23,7 +26,7 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     fun setData(user: List<User>){
         this.userList = user
-        this.userList.forEach { notifyItemInserted(this.userList.indexOf(it)) }
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,6 +44,12 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.ViewHolder>() {
         holder.txtFirstName.text = currentUser.firstName
         holder.txtLastName.text = currentUser.lastName
         holder.txtAge.text = currentUser.age.toString()
+
+        holder.root.setOnClickListener {
+            //pass user object to update fragment directly
+            val action = ListFragmentDirections.actionListFragmentToUpdateFragment(currentUser)
+            holder.root.findNavController().navigate(action)
+        }
 
     }
 
