@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,12 +19,22 @@ class ListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
     private lateinit var userViewModel: UserViewModel
 
+    private lateinit var adapter: ListAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         // Inflate the layout for this fragment
         binding =  FragmentListBinding.inflate(inflater, container, false)
 
-        val adapter = ListAdapter()
+        adapter = ListAdapter { holder, user ->
+            holder.root.setOnClickListener {
+                findNavController().navigate(R.id.action_listFragment_to_updateFragment,
+                    bundleOf("id" to user.id, "firstName" to user.firstName,
+                    "lastName" to user.lastName, "age" to user.age,
+                    "streetName" to user.address.streetName, "streetNumber" to user.address.streetNumber,
+                        "postCode" to user.address.postCode, "houseNumber" to user.address.houseNumber))
+            }
+        }
         binding.rvList.adapter = adapter
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)

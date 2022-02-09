@@ -10,7 +10,9 @@ import my.com.testroomdb.R
 import my.com.testroomdb.fragments.list.ListFragmentDirections
 import my.com.testroomdb.model.User
 
-class ListAdapter: RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+class ListAdapter(
+    val fn : (ViewHolder, User) -> Unit = { _, _ -> }
+): RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     private var userList = emptyList<User>()
 
@@ -45,11 +47,7 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.ViewHolder>() {
         holder.txtLastName.text = currentUser.lastName
         holder.txtAge.text = currentUser.age.toString()
 
-        holder.root.setOnClickListener {
-            //pass user object to update fragment directly
-            val action = ListFragmentDirections.actionListFragmentToUpdateFragment(currentUser)
-            holder.root.findNavController().navigate(action)
-        }
+        fn(holder, currentUser)
 
     }
 

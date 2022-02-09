@@ -34,8 +34,5 @@
         <action
             android:id="@+id/action_updateFragment_to_listFragment"
             app:destination="@id/listFragment" />
-        <argument
-            android:name="currentUser"
-            app:argType="my.com.testroomdb.model.User" />
     </fragment>
 </navigation>
