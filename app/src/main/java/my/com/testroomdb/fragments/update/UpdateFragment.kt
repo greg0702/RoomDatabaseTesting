@@ -1,12 +1,19 @@
 package my.com.testroomdb.fragments.update
 
 import android.app.AlertDialog
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.ImageLoader
+import coil.request.ImageRequest
+import coil.request.SuccessResult
+import kotlinx.coroutines.launch
 import my.com.testroomdb.R
 import my.com.testroomdb.databinding.FragmentUpdateBinding
 import my.com.testroomdb.model.Address
@@ -72,14 +79,16 @@ class UpdateFragment : Fragment() {
 
         }else{
 
-            //if input check is true, create address object and updated user object
-            val newAddress = Address(newStreetName, newStreetNumber.toInt(), newPostCode.toInt(), newHouseNumber.toInt())
-            val updatedUser = User(userId, newFirstName, newLastName, newAge.toInt(), newAddress)
-            //update data in database
-            userViewModel.updateUser(updatedUser)
-            Toast.makeText(requireContext(), "User $newFirstName $newLastName is updated successfully!", Toast.LENGTH_SHORT).show()
-            //navigate back
-            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+            lifecycleScope.launch {
+                //if input check is true, create address object and updated user object
+                val newAddress = Address(newStreetName, newStreetNumber.toInt(), newPostCode.toInt(), newHouseNumber.toInt())
+                val updatedUser = User(userId, newFirstName, newLastName, newAge.toInt(), newAddress,getBitmap())
+                //update data in database
+                userViewModel.updateUser(updatedUser)
+                Toast.makeText(requireContext(), "User $newFirstName $newLastName is updated successfully!", Toast.LENGTH_SHORT).show()
+                //navigate back
+                findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+            }
 
         }
 
@@ -121,11 +130,13 @@ class UpdateFragment : Fragment() {
 
         //set positive button (Yes) logic
         builder.setPositiveButton("Yes"){ _,_ ->
-            val address = Address(streetName, streetNumber, postCode, houseNumber)
-            val currentUser = User(userId, firstName, lastName, age, address)
-            userViewModel.deleteUser(currentUser)
-            Toast.makeText(requireContext(), "User $firstName $lastName is successfully deleted!", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+            lifecycleScope.launch {
+                val address = Address(streetName, streetNumber, postCode, houseNumber)
+                val currentUser = User(userId,firstName, lastName, age, address,getBitmap())
+                userViewModel.deleteUser(currentUser)
+                Toast.makeText(requireContext(), "User $firstName $lastName is successfully deleted!", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+            }
         }
 
         builder.setNegativeButton("No"){ _,_ ->  }
@@ -136,6 +147,16 @@ class UpdateFragment : Fragment() {
 
         builder.create().show()
 
+    }
+
+    private suspend fun getBitmap(): Bitmap {
+        val loading = ImageLoader(requireContext())
+        val request = ImageRequest.Builder(requireContext())
+            .data("https://avatars3.githubusercontent.com/u/14994036?s=400&u=2832879700f03d4b37ae1c09645352a352b9d2d0&v=4")
+            .build()
+
+        val result = (loading.execute(request) as SuccessResult).drawable
+        return (result as BitmapDrawable).bitmap
     }
 
 }

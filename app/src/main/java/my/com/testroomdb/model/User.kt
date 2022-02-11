@@ -1,5 +1,6 @@
 package my.com.testroomdb.model
 
+import android.graphics.Bitmap
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -14,10 +15,10 @@ data class User(
     val lastName: String,
     val age: Int,
     @Embedded
-    val address: Address
+    val address: Address,
+    val profilePic: Bitmap
 
 )
-
 data class Address(
     val streetName: String,
     val streetNumber: Int,

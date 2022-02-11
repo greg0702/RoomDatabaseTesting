@@ -3,9 +3,11 @@ package my.com.testroomdb.fragments.list.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import my.com.testroomdb.R
 import my.com.testroomdb.fragments.list.ListFragmentDirections
 import my.com.testroomdb.model.User
@@ -23,6 +25,7 @@ class ListAdapter(
         val txtFirstName: TextView = view.findViewById(R.id.txtFirstName)
         val txtLastName: TextView = view.findViewById(R.id.txtLastName)
         val txtAge: TextView = view.findViewById(R.id.txtAge)
+        val imgProfile: ImageView = view.findViewById(R.id.imgProfile)
 
     }
 
@@ -46,6 +49,7 @@ class ListAdapter(
         holder.txtFirstName.text = currentUser.firstName
         holder.txtLastName.text = currentUser.lastName
         holder.txtAge.text = currentUser.age.toString()
+        holder.imgProfile.load(currentUser.profilePic)
 
         fn(holder, currentUser)
 

@@ -1,5 +1,7 @@
 package my.com.testroomdb.fragments.add
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +9,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.ImageLoader
+import coil.request.ImageRequest
+import coil.request.SuccessResult
+import kotlinx.coroutines.launch
 import my.com.testroomdb.R
 import my.com.testroomdb.model.User
 import my.com.testroomdb.viewmodel.UserViewModel
@@ -54,14 +61,16 @@ class AddFragment : Fragment() {
         }else{
 
 
-            //if input check is true, create address and user object
-            val address = Address(streetName, streetNumber.toInt(), postCode.toInt(), houseNumber.toInt())
-            val user = User(0, firstName, lastName, age.toInt(), address)
-            //add data to database
-            userViewModel.addUser(user)
-            Toast.makeText(requireContext(), "User $firstName $lastName is added successfully!", Toast.LENGTH_SHORT).show()
-            //navigate back
-            findNavController().navigate(R.id.action_addFragment_to_listFragment)
+            lifecycleScope.launch {
+                //if input check is true, create address and user object
+                val address = Address(streetName, streetNumber.toInt(), postCode.toInt(), houseNumber.toInt())
+                val user = User(0,firstName, lastName, age.toInt(), address,getBitmap())
+                //add data to database
+                userViewModel.addUser(user)
+                Toast.makeText(requireContext(), "User $firstName $lastName is added successfully!", Toast.LENGTH_SHORT).show()
+                //navigate back
+                findNavController().navigate(R.id.action_addFragment_to_listFragment)
+            }
 
         }
 
@@ -85,6 +94,16 @@ class AddFragment : Fragment() {
 
         return true
 
+    }
+
+    private suspend fun getBitmap(): Bitmap {
+        val loading = ImageLoader(requireContext())
+        val request = ImageRequest.Builder(requireContext())
+            .data("https://avatars3.githubusercontent.com/u/14994036?s=400&u=2832879700f03d4b37ae1c09645352a352b9d2d0&v=4")
+            .build()
+
+        val result = (loading.execute(request) as SuccessResult).drawable
+        return (result as BitmapDrawable).bitmap
     }
 
 }
