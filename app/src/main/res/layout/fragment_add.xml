@@ -98,6 +98,19 @@
         app:layout_constraintTop_toBottomOf="@+id/edtPostCode"
         tools:ignore="TouchTargetSizeCheck" />
 
+    <EditText
+        android:id="@+id/edtImageUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Image URL for Profile Picture"
+        android:inputType="textUri"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtHouseNumber"
+        tools:ignore="TouchTargetSizeCheck" />
+
     <Button
         android:id="@+id/btnAdd"
         android:layout_width="match_parent"
@@ -106,5 +119,5 @@
         android:text="Add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtHouseNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/edtImageUrl" />
 </androidx.constraintlayout.widget.ConstraintLayout>

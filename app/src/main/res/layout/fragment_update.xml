@@ -98,6 +98,19 @@
         app:layout_constraintTop_toBottomOf="@+id/edtUpdatePostCode"
         tools:ignore="TouchTargetSizeCheck" />
 
+    <EditText
+        android:id="@+id/edtUpdateImageUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Image URL for Profile Picture"
+        android:inputType="textUri"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtUpdateHouseNumber"
+        tools:ignore="TouchTargetSizeCheck" />
+
     <Button
         android:id="@+id/btnUpdate"
         android:layout_width="match_parent"
@@ -106,6 +119,6 @@
         android:text="Update"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtUpdateHouseNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/edtUpdateImageUrl" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
